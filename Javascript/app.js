@@ -4,6 +4,8 @@
 let canvas = document.getElementById("canvas");
 let g = canvas.getContext("2d");
 
+let uiWindow = createRect(600,200,300,300);
+
 //Gamestate Variables
 const GAMESTATE_START = 0;
 const GAMESTATE_INGAME = 1;
@@ -12,6 +14,9 @@ const GAMESTATE_GAMEOVER = 2;
 const INGAMESTATE_START = 0;
 const INGAMESTATE_INGAME = 1;
 const INGAMESTATE_END = 0;
+
+let gameState = GAMESTATE_START;
+let ingameState = INGAMESTATE_START;
 
 //Pawn Variables
 let boardPositionSize = 50;
@@ -41,15 +46,11 @@ function clearCanvas()
 
 function draw()
 {
-    clearCanvas();
-    for (let i = 0; i < boardPositions.length; i++) {
-        let pos = boardPositions[i];
-
-        g.fillStyle = "#004400";
-        g.fillRect(pos.x,pos.y,50,50);
-        g.fillStyle = "#FFFFFF";
-        g.fillText((i+1)+"",pos.x,pos.y+20);
-        
+    clearCanvas();  
+    if(gameState == GAMESTATE_START){
+        drawGameStart();
+    }else if(gamestate == GAMESTATE_INGAME){
+        drawInGame();
     }
 }
 
@@ -76,7 +77,52 @@ function createBoardPositions()
         }
         boardPositions.push(createRect(x,y,boardPositionSize,boardPositionSize));
     }
-} 
+}
 
-createBoardPositions();
+
+function drawInGame(){
+    for (let i = 0; i < boardPositions.length; i++) 
+    {
+        let pos = boardPositions[i];
+
+        g.fillStyle = "#004400";
+        g.fillRect(pos.x,pos.y,pos.w,pos.h);
+        g.fillStyle = "#FFFFFF";
+        g.fillText((i+1)+"",pos.x,pos.y+20);
+    }
+}
+
+function initGame()
+{
+    createBoardPositions();
+    for (let i = 0; i < 4; i++) {
+        let button = createRect(uiWindow.x+5 + (i*55),uiWindow.y+50,50,50);
+        button.playerAmount=i+1;
+        playerAmountButtons.push(button);
+    }
+}
+
+function drawInGame()
+{
+    for(let i =0 ; i<boardPositions.length;i++)
+    {
+       let pos = boardPositions[i];
+
+       g.fillStyle = "#004400";
+       g.fillRect(pos.x,pos.y,pos.w,pos.h);
+       g.fillStyle = "#FFFFFF";
+       g.fillText((i+1)+"",pos.x,pos.y+20);
+    }
+}
+
+function drawGameStart()
+{
+    for (let i = 0; i < playerAmountButtons.length; i++) {
+        g.fillStyle = "#004400";
+        g.fillRect(playerAmountButtons[i].x,playerAmountButtons[i].y,playerAmountButtons[i].w,playerAmountButtons[i].h);
+        g.fillStyle = "#FFFFFF";
+        g.fillText((i+1)+"",playerAmountButtons[i].x,playerAmountButtons[i].y+20);
+    }    
+}
+initGame();
 draw();
