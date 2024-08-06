@@ -120,14 +120,13 @@ function drawInGame()
 function drawGameStart()
 {
     for (let i = 0; i < playerAmountButtons.length; i++) {
-        
-        let pos = playerAmountButtons[i];
 
         g.fillStyle = "#004400";
         g.fillRect(playerAmountButtons[i].x,playerAmountButtons[i].y,playerAmountButtons[i].w,playerAmountButtons[i].h);
-        g.drawImage(images["pawn"+i+".png"],pos.x,pos.y,pos.w,pos.h);
         g.fillStyle = "#FFFFFF";
         g.fillText((i+1)+"",playerAmountButtons[i].x,playerAmountButtons[i].y+20);
+
+        g.drawImage(images["pawn"+i+".png"],playerAmountButtons[i].x,playerAmountButtons[i].y,playerAmountButtons[i].w,playerAmountButtons[i].h);
     } 
     g.fillText("Click the amount of players to start",uiWindow.x+10,uiWindow.y);
 }
@@ -162,13 +161,13 @@ function loadImages()
 
         images[ sources[i].replace("img/","")] = img;
     }
-
+    initGame();
+    draw();
 }
 
 function imagesLoaded()
 {
     initGame();
-    draw();
 
 }
 loadImages();
