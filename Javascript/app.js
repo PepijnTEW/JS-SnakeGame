@@ -165,10 +165,51 @@ function loadImages()
 
 }
 
+function canvasClicked(mouseEvent){
+
+    if (gamestate == GAMESTATE_START){
+        for (let i = 0; i < playerAmountButtons.length; i++) 
+        {
+            let button = playerAmountButtons[i];
+
+            let mX = mouseEvent.layerX;
+            let mY = mouseEvent.layerY;
+
+            let hitButton = inRect(mX,mY,button);
+
+            if (hitButton == true){
+                startGame(playerAmountButtons);
+                break;
+            }
+        }
+    }
+}
+
+function inRect(px,py,rect)
+{
+    let result = (px >= rect.x && px <= rect.x2 && py >= rect.y && py <= rect.y2);
+    
+
+    return result;
+}
+
+
+
 function imagesLoaded()
 {
     initGame();
+
+    canvas.addEventListener("click",(e)=>{canvasClicked(e)});
+
     draw();
 
 }
+
+function startGame(playerAmountButtons)
+{
+
+
+
+}
+
 loadImages();
